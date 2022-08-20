@@ -11,19 +11,19 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 songplay_table_create = ("""
 CREATE table IF NOT EXISTS songplays (
     songplay_id serial PRIMARY KEY, 
-    start_time timestamp, 
-    user_id varchar, 
+    start_time timestamp NOT NULL, 
+    user_id int NOT NULL, 
     level varchar, 
     song_id varchar, 
     artist_id varchar, 
-    session_id int, 
+    session_id int NOT NULL, 
     location varchar, 
     user_agent varchar);
 """)
 
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS users (
-    user_id varchar PRIMARY KEY,
+    user_id int PRIMARY KEY,
     first_name varchar,
     last_name varchar,
     gender varchar,
@@ -33,19 +33,19 @@ CREATE TABLE IF NOT EXISTS users (
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs (
     song_id varchar PRIMARY KEY,
-    title varchar,
-    artist_id varchar,
-    year int,
-    duration float);
+    title varchar NOT NULL,
+    artist_id varchar NOT NULL,
+    year int NOT NULL,
+    duration float NOT NULL);
 """)
 
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists (
     artist_id varchar PRIMARY KEY,
-    name varchar,
-    location varchar,
-    latitude decimal,
-    longitude decimal);
+    name varchar NOT NULL,
+    location varchar NOT NULL,
+    latitude float,
+    longitude float);
 """)
 
 time_table_create = ("""
@@ -93,7 +93,8 @@ INSERT INTO songs (
     artist_id, 
     year, 
     duration) 
-    VALUES (%s, %s, %s, %s, %s);
+    VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
 """)
 
 artist_table_insert = ("""
@@ -103,7 +104,8 @@ INSERT INTO artists (
     location,
     latitude,
     longitude)
-    VALUES (%s, %s, %s, %s, %s);
+    VALUES (%s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
 """)
 
 time_table_insert = ("""
@@ -115,7 +117,8 @@ INSERT INTO time (
     month, 
     year,
     weekday)
-    VALUES (%s, %s, %s, %s, %s, %s, %s);
+    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    ON CONFLICT DO NOTHING;
 """)
 
 # FIND SONGS

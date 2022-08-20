@@ -36,4 +36,4 @@ The pythin file that contains all the sql queries, and is imported into the othe
 
 ## Data Schema
 
-[Data Schema](schema.png)
+![Data Schema](schema.png)
